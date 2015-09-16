@@ -4,8 +4,8 @@ Shortly.Router = Backbone.Router.extend({
   },
 
   routes: {
-    '':       'index',
-    'create': 'create'
+    'bsag-shortly-deploy.git': 'index',
+    'create': 'create',
   },
 
   swapView: function(view){
