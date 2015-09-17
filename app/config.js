@@ -46,7 +46,7 @@ db.knex.schema.hasTable('users').then(function(exists) {
   }
 });
 
-module.exports = db;
+module.exports = db; // uncomment for sqlite
 
 //////////////////////////////////////////
 
@@ -58,8 +58,11 @@ var MongoClient = require('mongodb').MongoClient;
 var mongoose = require('mongoose');
 var assert = require('assert');
 var ObjectId = require('mongodb').ObjectID;
-mongoose.connect('mongodb://localhost/test');
+mongoose.connect('mongodb://localhost/shortly');
 var Schema = mongoose.Schema;
+var bcrypt = require('bcrypt-nodejs');
+var Promise = require('bluebird');
+
 
 var userSchema = new Schema({
   username: String,
@@ -74,10 +77,23 @@ var linkSchema = new Schema({
   visits: Number
 })
 
+userSchema.pre('save', function(next){
+  //do stuff
+  var cipher = Promise.promisify(bcrypt.hash);
+  var user = this;
+  return cipher(user.password, null, null).bind(user)
+    .then(function(hash){
+      user.password = hash;
+      next();
+    // .then(function(hash) {
+    })
+});
+
 var User = mongoose.model('User', userSchema);
 var LinkModel = mongoose.model('Link', linkSchema);
 
-
+module.exports.User = User;
+module.exports.LinkModel = LinkModel;
  
 
 

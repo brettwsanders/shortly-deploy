@@ -3,6 +3,7 @@ var partials = require('express-partials');
 var util = require('./lib/utility');
 
 var handler = require('./lib/request-handler');
+var mongohandler = require('./lib/request-handler-mongo');
 
 var app = express();
 
@@ -27,7 +28,7 @@ app.post('/login', handler.loginUser);
 app.get('/logout', handler.logoutUser);
 
 app.get('/signup', handler.signupUserForm);
-app.post('/signup', handler.signupUser);
+app.post('/signup', mongohandler.signupUser);
 
 app.get('/*', handler.navToLink);
 
