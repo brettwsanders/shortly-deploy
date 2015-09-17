@@ -1,3 +1,7 @@
+//////////////////////////
+//sqlite
+//////////////////////////
+
 var Bookshelf = require('bookshelf');
 var path = require('path');
 
@@ -43,3 +47,44 @@ db.knex.schema.hasTable('users').then(function(exists) {
 });
 
 module.exports = db;
+
+//////////////////////////////////////////
+
+//////////////////////////
+//MongoDB
+//////////////////////////
+
+var MongoClient = require('mongodb').MongoClient;
+var mongoose = require('mongoose');
+var assert = require('assert');
+var ObjectId = require('mongodb').ObjectID;
+mongoose.connect('mongodb://localhost/test');
+var Schema = mongoose.Schema;
+
+var userSchema = new Schema({
+  username: String,
+  password: String
+});
+
+var linkSchema = new Schema({
+  url: String,
+  base_url: String,
+  code: String,
+  title: String,
+  visits: Number
+})
+
+var User = mongoose.model('User', userSchema);
+var LinkModel = mongoose.model('Link', linkSchema);
+
+
+ 
+
+
+// var insertDocument = function(db, callback) {
+//   db.collection('users').insertOne({}, function(err, result){
+//     assert.equal(err, null);
+//     console.log('');
+//     callback(result);
+//   });
+// };
