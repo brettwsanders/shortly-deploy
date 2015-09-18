@@ -17,19 +17,19 @@ app.configure(function() {
   app.use(express.session());
 });
 
-app.get('/', util.checkUser, handler.renderIndex);
-app.get('/create', util.checkUser, handler.renderIndex);
+app.get('/', util.checkUser, mongohandler.renderIndex);
+app.get('/create', util.checkUser, mongohandler.renderIndex);
 
-app.get('/links', util.checkUser, handler.fetchLinks);
-app.post('/links', handler.saveLink);
+app.get('/links', util.checkUser, mongohandler.fetchLinks);
+app.post('/links', mongohandler.saveLink);
 
-app.get('/login', handler.loginUserForm);
-app.post('/login', handler.loginUser);
-app.get('/logout', handler.logoutUser);
+app.get('/login', mongohandler.loginUserForm);
+app.post('/login', mongohandler.loginUser);
+app.get('/logout', mongohandler.logoutUser);
 
-app.get('/signup', handler.signupUserForm);
+app.get('/signup', mongohandler.signupUserForm);
 app.post('/signup', mongohandler.signupUser);
 
-app.get('/*', handler.navToLink);
+app.get('/*', mongohandler.navToLink);
 
 module.exports = app;

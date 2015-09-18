@@ -89,11 +89,29 @@ userSchema.pre('save', function(next){
     })
 });
 
+var Users = new db.Collection();
+var Links = new db.Collection();
+
 var User = mongoose.model('User', userSchema);
 var LinkModel = mongoose.model('Link', linkSchema);
 
+Users.model = User;
+Links.model = LinkModel;
+
+User.prototype.comparePassword = function(attemptedPassword, callback) {
+  bcrypt.compare(attemptedPassword, this.password, function(err, match) {
+    if (err) {
+      console.log('error thrown in comparePassword');
+      throw err;
+    } else {
+      callback(null, match);
+    }
+  });
+};
+
 module.exports.User = User;
 module.exports.LinkModel = LinkModel;
+module.exports.linkSchema = linkSchema;
  
 
 
